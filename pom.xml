@@ -25,9 +25,11 @@
         <version>3.1.1</version>
 
         <configuration>
+          <finalName>document-security</finalName>
           <descriptorRefs>
             <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>
+          <appendAssemblyId>false</appendAssemblyId>
           <archive>
             <manifest>
               <mainClass>io.patlego.vm.security.pdf.CreateSignature</mainClass>
