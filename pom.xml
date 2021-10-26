@@ -32,7 +32,7 @@
           <appendAssemblyId>false</appendAssemblyId>
           <archive>
             <manifest>
-              <mainClass>io.patlego.vm.security.pdf.CreateSignature</mainClass>
+              <mainClass>io.patlego.vm.security.Main</mainClass>
             </manifest>
           </archive>
         </configuration>

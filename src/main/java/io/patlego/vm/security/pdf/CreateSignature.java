@@ -1,12 +1,10 @@
 package io.patlego.vm.security.pdf;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -20,7 +18,6 @@ import java.util.Enumeration;
 import org.apache.pdfbox.io.IOUtils;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.interactive.digitalsignature.ExternalSigningSupport;
 import org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature;
 import org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions;
 
@@ -37,7 +34,6 @@ import org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions;
  */
 public class CreateSignature extends CreateSignatureBase {
     private KeyStore keyStore;
-    private char[] pin;
     private String alias;
 
     /**
@@ -58,7 +54,6 @@ public class CreateSignature extends CreateSignatureBase {
             UnrecoverableKeyException, NoSuchAlgorithmException, CertificateException, IOException {
         super(keystore, pin);
         this.keyStore = keystore;
-        this.pin = pin;
         this.alias = alias;
     }
 
@@ -144,30 +139,4 @@ public class CreateSignature extends CreateSignatureBase {
         throw new KeyStoreException("Could not locate the alias from the provided certificate");
     }
 
-    public static void main(String[] args) throws IOException, GeneralSecurityException {
-        if (args.length < 3) {
-            usage();
-            System.exit(1);
-        }
-
-        // load the keystore
-        KeyStore keystore = KeyStore.getInstance("PKCS12");
-        char[] password = System.console().readPassword("Password: ");
-        keystore.load(new FileInputStream(args[0]), password);
-
-        // sign PDF
-        CreateSignature signing = new CreateSignature(keystore, args[1], password);
-
-        File inFile = new File(args[2]);
-        String name = inFile.getName();
-        String substring = name.substring(0, name.lastIndexOf('.'));
-
-        File outFile = new File(inFile.getParent(), substring + "_signed.pdf");
-        signing.signDetached(inFile, outFile);
-    }
-
-    private static void usage() {
-        System.err.println(
-                "Usage: java " + CreateSignature.class.getName() + " " + "<pkcs12_keystore> <alias> <pdf_to_sign>");
-    }
 }
