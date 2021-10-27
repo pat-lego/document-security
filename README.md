@@ -15,7 +15,7 @@ In order to execute this JAR file you will need to provide it with a few inputs:
 1. A valid PKCS12 Keystore (it can be self signed)
 2. The Alias within the PKCS12 file
 3. The PKCS12 Keystore password
-4. The PDF to Sign
+4. The Document to Sign
 
 To generate a self signed PKCS12 keystore execute the following command:
 
